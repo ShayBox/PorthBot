@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "PorthBot"
-version = "0.1.0"
+version = "0.1.1"
 description = "Discord bot that runs Porth codeblocks inside Docker"
 authors = ["Shayne Hartford <shaybox@shaybox.com>"]
 
@@ -8,6 +8,7 @@ authors = ["Shayne Hartford <shaybox@shaybox.com>"]
 hikari = { extras = ["speedups"], version = "^2.0.0-alpha.105" }
 python = ">=3.9.0,<3.11"
 uvloop = "^0.16.0"
+hikari-tanjun = "^2.3.1-alpha.1"
 
 [tool.poetry.dev-dependencies]
 black = { version = "^22.1.0", allow-prereleases = true }

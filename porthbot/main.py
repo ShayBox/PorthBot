@@ -2,6 +2,7 @@ import os
 import subprocess
 
 import hikari
+import tanjun
 
 if os.name != "nt":
     import uvloop
@@ -9,7 +10,11 @@ if os.name != "nt":
     uvloop.install()
 
 bot = hikari.GatewayBot(os.environ["DISCORD_TOKEN"])
+client = tanjun.Client.from_gateway_bot(bot, declare_global_commands=True)
 messages: dict[int, hikari.Message] = {}
+
+
+client.load_modules("porthbot.commands")
 
 
 async def process_message(message: hikari.Message, update: bool) -> None:

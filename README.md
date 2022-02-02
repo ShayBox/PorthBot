@@ -17,19 +17,19 @@ end
 ### Development (Virtual Environment)
 Dependencies: [Python], [Poetry], and [Docker]  
 1. Clone the repository
-2. Build the docker image: `docker build -t porth .`
-3. Select python version: `poetry env use <python executable>`
-4. Install dependencies: `poetry install`
-5. Run the bot: `env DISCORD_TOKEN="token here" poetry run porthbot`
+2. Select python version: `poetry env use <python executable>`
+3. Install dependencies: `poetry install`
+4. Run the bot: `env DISCORD_TOKEN="token here" poetry run porthbot`
+5. Build the Docker image: `/build` in Discord
 
 ### Production (System Python)
 Dependencies: [Python], [Poetry], and [Docker]  
 1. Clone the repository
-2. Build the docker image: `docker build -t porth .`
-3. Build the discord bot: `poetry build`
-4. Install dependencies: `pip install --user hikari`
-5. Install the package: `pip install --user dist/*.tar.gz` or `pip install --user dist/*.whl`
+2. Build the discord bot: `poetry build`
+3. Install dependencies: `pip install --user hikari`
+4. Install the package: `pip install --user dist/*.tar.gz` or `pip install --user dist/*.whl`
 5. Run the bot: `env DISCORD_TOKEN="token here" porthbot`
+6. Build the Docker image: `/build` in Discord
 
 [Porth]:  https://gitlab.com/tsoding/porth
 [Python]: https://python.org
