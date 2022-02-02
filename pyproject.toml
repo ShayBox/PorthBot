@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "PorthBot"
+version = "0.1.0"
+description = "Discord bot that runs Porth codeblocks inside Docker"
+authors = ["Shayne Hartford <shaybox@shaybox.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.8.0,<3.11"
+hikari = "^2.0.0-alpha.105"
+
+[tool.poetry.dev-dependencies]
+black = { version = "^22.1.0", allow-prereleases = true }
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+porthbot = "porthbot.main:main"
