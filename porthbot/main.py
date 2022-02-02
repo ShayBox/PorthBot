@@ -3,15 +3,17 @@ import subprocess
 
 import hikari
 
+if os.name != "nt":
+    import uvloop
+
+    uvloop.install()
+
 bot = hikari.GatewayBot(os.environ["DISCORD_TOKEN"])
+messages: dict[int, hikari.Message] = {}
 
 
-@bot.listen()
-async def message_create(event: hikari.MessageCreateEvent) -> None:
-    if event.is_bot:
-        return
-
-    content = event.message.content
+async def process_message(message: hikari.Message, update: bool) -> None:
+    content = message.content
     if content is None or "```porth" not in content:
         return
 
@@ -25,14 +27,32 @@ async def message_create(event: hikari.MessageCreateEvent) -> None:
     result = subprocess.run(["docker", "run", "-t", "porth", code], capture_output=True)
 
     # Send the output to the channel
-    await event.message.respond(
-        embed=hikari.Embed(
-            color="fbe9d8",
-            title="Standard Output",
-            description=f"```{result.stdout.decode('utf-8')}```",
-            timestamp=event.message.timestamp,
-        )
+    embed = hikari.Embed(
+        color="fbe9d8",
+        title="Standard Output",
+        description=f"```{result.stdout.decode('utf-8')}```",
+        timestamp=message.timestamp,
     )
+    if update:
+        response = messages[message.id]
+        response = await response.edit(embed=embed)
+    else:
+        response = await message.respond(embed=embed)
+
+    # Keep track of messages and responses for edits
+    messages[message.id] = response
+
+
+@bot.listen()
+async def message_create(event: hikari.MessageCreateEvent) -> None:
+    if event.is_human:
+        await process_message(event.message, update=False)
+
+
+@bot.listen()
+async def message_create(event: hikari.MessageUpdateEvent) -> None:
+    if event.is_human:
+        await process_message(event.message, update=True)
 
 
 def main() -> None:
